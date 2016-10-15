@@ -4,7 +4,7 @@ from db.models import *
 class CliTextRender():
     fragment = None
 
-    def __init__(self, fragment: Fragment):
+    def __init__(self, fragment):
         self.fragment = fragment
 
     def render(self, debug=False):

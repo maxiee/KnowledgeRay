@@ -1,4 +1,5 @@
 from db.models import *
+from parser.notebook import *
 import json
 
 
@@ -7,9 +8,10 @@ def createTextFragment(content):
 
 
 def createPage(title, fragment):
-    return Page.create(title=title, fragments=str([fragment.id]))
+    return Page.create(title=title, fragments=json.dumps([fragment.id]))
 
 fragIntro = createTextFragment("前言")
+pageIntro = createPage("前言", fragIntro)
 
 frag11 = createTextFragment("什么是 Linux 呢?")
 page11 = createPage("第一节 什么是 Linux", frag11)
@@ -17,8 +19,8 @@ page11 = createPage("第一节 什么是 Linux", frag11)
 frag12 = createTextFragment("下面我们来介绍 Ubuntu")
 page12 = createPage("第二节 Ubuntu", frag12)
 
-frag13 = createTextFragment("安装 Ubuntu")
-page13 = createPage("下面我们来学习如何安装 Ubuntu", frag13)
+frag13 = createTextFragment("下面我们来学习如何安装 Ubuntu")
+page13 = createPage("第三节 安装 Ubuntu", frag13)
 
 chapter1Pages = [
     NoteBook.addPage(page11),
@@ -42,8 +44,8 @@ frag222 = createTextFragment("浏览图片也是必需功能之一...")
 page222 = createPage("2. 图像浏览", frag222)
 
 chapter22Pages = [
-    NoteBook.addPage(frag221),
-    NoteBook.addPage(frag222)
+    NoteBook.addPage(page221),
+    NoteBook.addPage(page222)
 ]
 
 chapter22 = Title.create(
@@ -52,8 +54,8 @@ chapter22 = Title.create(
 )
 
 chapter2Pages = [
-    NoteBook.addPage(frag21),
-    NoteBook.addTitle(chapter22) # 这里面的 contains 已经是 JSON 了
+    NoteBook.addPage(page21),
+    NoteBook.addTitle(chapter22)
 ]
 
 chapter2Title = Title.create(
@@ -61,7 +63,7 @@ chapter2Title = Title.create(
     contains=NoteBook.addContains(chapter2Pages))
 
 notebookPages = [
-    NoteBook.addPage(fragIntro),
+    NoteBook.addPage(pageIntro),
     NoteBook.addTitle(chapter1Title),
     NoteBook.addTitle(chapter2Title)
 ]
@@ -71,9 +73,11 @@ notebook = NoteBook.create(
     contains=NoteBook.addContains(notebookPages)
 )
 
-print(notebook.contains)
+# print(notebook.contains)
 
-
+notebookParser = NoteBookParser(notebook)
+notebookParser.parse()
+notebookParser.render()
 
 
 

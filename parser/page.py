@@ -1,19 +1,19 @@
-from db.models import *
+import json
 from render.map import *
-import ast
 
 
-class PageParser():
+class PageParser:
     title = ""
     fragmentList = []
     page = None
 
-    def __init__(self, page: Page):
+    def __init__(self, page):
         self.title = page.title
         self.page = page
 
     def parse(self):
-        fragments = ast.literal_eval(self.page.fragments)
+        self.fragmentList.clear()
+        fragments = json.loads(self.page.fragments)
         for fragmentId in fragments:
             fragment = Fragment.get(Fragment.id == fragmentId)
             self.fragmentList.append(fragment)

@@ -1,6 +1,5 @@
 from peewee import *
 from datetime import datetime
-from parser.notebook import *
 import json
 
 knowledgeDB = SqliteDatabase('../dbfiles/knowledge.sqlite')
@@ -48,14 +47,11 @@ class NoteBook(Model):
 
     @staticmethod
     def addTitle(title: Title):
-        contains = title.contains
-        if isinstance(contains, str):
-            contains = json.loads(contains)
-        return {"id": title.id, "contains": contains, "type": "title"}
+        return {"id": title.id, "type": "title"}
 
     @staticmethod
     def addContains(contains):
-        return json.dumps(contains, indent=4)
+        return json.dumps(contains)
 
     class Meta:
         database = knowledgeDB

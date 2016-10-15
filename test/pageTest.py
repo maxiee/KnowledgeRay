@@ -1,5 +1,6 @@
 from db.models import *
 from parser.page import *
+import json
 
 fragment1 = Fragment.create(
     content="比起上学, 上了班以后, 时间明显减少了.",
@@ -17,7 +18,7 @@ fragmentList = [fragment1.id, fragment2.id, fragment3.id]
 
 page = Page.create(
     title="工作感悟",
-    fragments=str(fragmentList))
+    fragments=json.dumps(fragmentList))
 
 pageParser = PageParser(page)
 pageParser.parse()
