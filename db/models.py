@@ -7,6 +7,7 @@ knowledgeDB = SqliteDatabase('../dbfiles/knowledge.sqlite')
 class Fragment(Model):
 
     content = TextField()
+    type = CharField()
 
     class Meta:
         database = knowledgeDB
