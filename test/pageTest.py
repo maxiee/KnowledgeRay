@@ -1,4 +1,5 @@
 from db.models import *
+from parser.page import *
 
 fragment1 = Fragment.create(content="比起上学, 上了班以后, 时间明显减少了.")
 
@@ -12,4 +13,4 @@ page = Page.create(
     title="工作感悟",
     fragments=str(fragmentList))
 
-
+PageParser(page).parse()
