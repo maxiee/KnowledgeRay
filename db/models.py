@@ -24,11 +24,18 @@ class Page(Model):
         database = knowledgeDB
 
 
+class Title(Model):
+
+    title = TextField()
+    contains = TextField()
+
+
 class NoteBook(Model):
 
     # 笔记本的题目
     title = TextField()
     # 笔记本的目录, 是个 JSON, 里面
+    contains = TextField()
 
     class Meta:
         database = knowledgeDB
