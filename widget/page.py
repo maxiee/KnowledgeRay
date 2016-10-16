@@ -3,9 +3,11 @@ from PyQt5.QtCore import *
 import json
 from parser.page import *
 from render.map import *
+from dialog.page import *
 
 
 class PageView(QWidget):
+
     def __init__(self, parent=None):
         super().__init__(parent)
 
@@ -22,8 +24,14 @@ class PageView(QWidget):
         fragmentList = pageParser.parse()
         self.clearMainLayout()
         for fragment in fragmentList:
-            widget = qtRenderMap[fragment.type](fragment).render()
+            widgetRender = qtRenderMap[fragment.type](fragment)
+            widget = widgetRender.render()
+            widgetRender.fragmentClicked.connect(self.clickTextFragmentToEdit)
             self.mainLayout.addWidget(widget)
+
+    @pyqtSlot(Fragment)
+    def clickTextFragmentToEdit(self, fragment: Fragment):
+        QTextFragmentEditor(fragment).exec()
 
     def clearMainLayout(self):
         for i in reversed(range(self.mainLayout.count())):
