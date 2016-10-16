@@ -31,6 +31,7 @@ class MainWindow(QMainWindow):
         mainHLayout.addWidget(pageView)
         # mainHLayout.addStretch()
 
+        mainHLayout.setContentsMargins(0, 0, 0, 0)
         mainWidget.setLayout(mainHLayout)
         self.setCentralWidget(mainWidget)
         self.resize(800, 600)

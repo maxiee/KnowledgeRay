@@ -8,6 +8,7 @@ from dialog.page import *
 
 
 class PageView(QWidget):
+    fragmentRenderList = []
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -21,17 +22,24 @@ class PageView(QWidget):
         if index.data._meta.db_table != 'page':
             return
         page = index.data
-        fragmentList = parsePage(page)
+        self.fragmentList = parsePage(page)
         self.clearMainLayout()
-        for fragment in fragmentList:
-            widgetRender = qtRenderMap[fragment.type](fragment)
+        for index, fragment in enumerate(self.fragmentList):
+            widgetRender = qtRenderMap[fragment.type](fragment, index)
             widget = widgetRender.render()
             widgetRender.fragmentClicked.connect(self.clickTextFragmentToEdit)
+            self.fragmentRenderList.append(widgetRender)
             self.mainLayout.addWidget(widget)
 
-    @pyqtSlot(Fragment)
-    def clickTextFragmentToEdit(self, fragment: Fragment):
-        QTextFragmentEditor(fragment).exec()
+    @pyqtSlot(Fragment, int)
+    def clickTextFragmentToEdit(self, fragment: Fragment, index):
+        editor = QTextFragmentEditor(fragment, index)
+        editor.fragmentUpdated.connect(self.updateFragment)
+        editor.exec()
+
+    @pyqtSlot(int)
+    def updateFragment(self, index):
+        self.fragmentRenderList[index].update()
 
     def clearMainLayout(self):
         for i in reversed(range(self.mainLayout.count())):
