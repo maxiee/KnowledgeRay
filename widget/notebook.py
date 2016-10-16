@@ -51,7 +51,6 @@ class NoteBookTreeModel(QAbstractItemModel):
         node = self.nodeFromIndex(parent)
         if node is None:
             return 0
-        print('rowCount -> ' + str(len(node)))
         return len(node)
 
     def data(self, QModelIndex, role=None):
@@ -97,12 +96,17 @@ class NoteBookTreeModel(QAbstractItemModel):
 
     def loadNoteBook(self):
         self.root = NoteBookTreeItem(None, None)
-        notebook = NoteBook.select().get()
-        notebookItem = NoteBookTreeItem(notebook, self.root)
-        items = json.loads(notebook.contains)
+        for notebook in NoteBook.select():
+            notebookItem = NoteBookTreeItem(notebook, self.root)
+            self.addContains(notebook.contains, notebookItem)
+
+    def addContains(self, contains, parent):
+        items = json.loads(contains)
         for item in items:
             modelObject = getItemObject(item)
-            treeItem = NoteBookTreeItem(modelObject, notebookItem)
+            treeItem = NoteBookTreeItem(modelObject, parent)
+            if hasattr(modelObject, 'contains'):
+                self.addContains(modelObject.contains, treeItem)
 
 class NoteBookCategoryWidget(QWidget):
     def __init__(self, parent=None):

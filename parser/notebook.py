@@ -14,7 +14,7 @@ def getItemObject(item):
         return Title.get(Title.id == item['id'])
 
 
-def parseItem(item):
+def renderItem(item):
     if item['type'] == TYPE_PAGE:
         page = Page.get(Page.id == item['id'])
         pageParse = PageParser(page)
