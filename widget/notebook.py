@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 from db.models import *
-from parser.notebook import *
+from parser.parser import *
 import json
 
 

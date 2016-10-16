@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import json
 from parser.page import *
+from parser.parser import *
 from render.map import *
 from dialog.page import *
 
@@ -20,8 +21,7 @@ class PageView(QWidget):
         if index.data._meta.db_table != 'page':
             return
         page = index.data
-        pageParser = PageParser(page)
-        fragmentList = pageParser.parse()
+        fragmentList = parsePage(page)
         self.clearMainLayout()
         for fragment in fragmentList:
             widgetRender = qtRenderMap[fragment.type](fragment)
