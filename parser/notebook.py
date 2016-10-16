@@ -6,7 +6,15 @@ TYPE_PAGE = 'page'
 TYPE_TITLE = 'title'
 
 
-def renderItem(item):
+def getItemObject(item):
+    if item['type'] == TYPE_PAGE:
+        return Page.get(Page.id == item['id'])
+
+    if item['type'] == TYPE_TITLE:
+        return Title.get(Title.id == item['id'])
+
+
+def parseItem(item):
     if item['type'] == TYPE_PAGE:
         page = Page.get(Page.id == item['id'])
         pageParse = PageParser(page)
