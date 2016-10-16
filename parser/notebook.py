@@ -19,7 +19,7 @@ def renderItem(item):
         page = Page.get(Page.id == item['id'])
         pageParse = PageParser(page)
         pageParse.parse()
-        pageParse.render()
+        pageParse.cliRender()
 
     if item['type'] == TYPE_TITLE:
         title = Title.get(Title.id == item['id'])

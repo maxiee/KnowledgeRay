@@ -17,8 +17,9 @@ class PageParser:
         for fragmentId in fragments:
             fragment = Fragment.get(Fragment.id == fragmentId)
             self.fragmentList.append(fragment)
+        return self.fragmentList
 
-    def render(self):
+    def cliRender(self):
         print("*" * len(self.title) * 2)
         print(self.title)
         print("*" * len(self.title) * 2)

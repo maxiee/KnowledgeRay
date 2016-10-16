@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import *
 from widget.notebook import *
+from widget.page import *
 from PyQt5.QtCore import pyqtSlot
 import sys
 
@@ -20,10 +21,15 @@ class MainWindow(QMainWindow):
         treeView = QTreeView()
         model = NoteBookTreeModel()
         treeView.setModel(model)
-        treeView.clicked.connect(itemClicked)
+        treeView.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Minimum)
+
+        pageView = PageView()
+
+        treeView.clicked.connect(pageView.onPageSelected)
 
         mainHLayout.addWidget(treeView)
-        mainHLayout.addStretch()
+        mainHLayout.addWidget(pageView)
+        # mainHLayout.addStretch()
 
         mainWidget.setLayout(mainHLayout)
         self.setCentralWidget(mainWidget)

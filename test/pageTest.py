@@ -22,4 +22,4 @@ page = Page.create(
 
 pageParser = PageParser(page)
 pageParser.parse()
-pageParser.render()
+pageParser.cliRender()
