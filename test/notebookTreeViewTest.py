@@ -1,6 +1,13 @@
 from PyQt5.QtWidgets import *
 from widget.notebook import *
+from PyQt5.QtCore import pyqtSlot
 import sys
+
+
+@pyqtSlot()
+def itemClicked(itemSelect):
+    item = itemSelect.internalPointer()
+    print("[id=%d]标题: %s" % (item.data.id, item.data.title))
 
 
 class MainWindow(QMainWindow):
@@ -13,6 +20,7 @@ class MainWindow(QMainWindow):
         treeView = QTreeView()
         model = NoteBookTreeModel()
         treeView.setModel(model)
+        treeView.clicked.connect(itemClicked)
 
         mainHLayout.addWidget(treeView)
         mainHLayout.addStretch()
