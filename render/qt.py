@@ -22,6 +22,7 @@ class QtTextRender(QObject):
 
     def __init__(self, fragment, fragmentIndex, parent=None):
         super().__init__(parent)
+        self.widget = ClickableLabel("")
         self.fragment = fragment
         self.fragmentIndex = fragmentIndex
 
@@ -30,7 +31,7 @@ class QtTextRender(QObject):
         if debug:
             str += "fragment id = %d\n" % self.fragment.id
         str += self.fragment.content
-        self.widget = ClickableLabel(str)
+        self.widget.setText(str)
         self.widget.clicked.connect(lambda: self.onLabelClicked())
         return self.widget
 
