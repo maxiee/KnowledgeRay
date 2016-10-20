@@ -12,7 +12,8 @@ class ClickableLabel(QLabel):
         self.setWordWrap(True)
 
     def mousePressEvent(self, QMouseEvent):
-        self.clicked.emit()
+        if QMouseEvent.buttons() == Qt.LeftButton:
+            self.clicked.emit()
 
 
 class QtTextRender(QObject):
@@ -23,6 +24,8 @@ class QtTextRender(QObject):
     def __init__(self, fragment, fragmentIndex, parent=None):
         super().__init__(parent)
         self.widget = ClickableLabel("")
+        self.widget.addAction(QAction("在上方添加", self.widget))
+        self.widget.setContextMenuPolicy(Qt.ActionsContextMenu)
         self.fragment = fragment
         self.fragmentIndex = fragmentIndex
 
